@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Safe Unlock</string>
+
+    <string name="option_enable">Enable</string>
+
+    <string name="action_about">About</string>
+    <string name="action_share">Share This App</string>
+    <string name="action_rate">Rate This App</string>
+
+</resources>
