@@ -9,7 +9,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,8 +25,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mListView.setAdapter(new ArrayAdapter<Hotspot>(this,
-                android.R.layout.simple_list_item_multiple_choice, NetworkUtil.getConfiguredNetworks(this)));
+        mListView.setAdapter(new HotspotAdapter(this, NetworkUtil.getConfiguredNetworks(this)));
 
         mListView.setItemsCanFocus(false);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

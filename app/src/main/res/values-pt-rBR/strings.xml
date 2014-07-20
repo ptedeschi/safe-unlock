@@ -11,6 +11,5 @@
 
     <string name="admob_id">ca-app-pub-8558420540395538/1889767422</string>
     <string name="header_general">GENERAL</string>
-    <string name="header_wifi_hotspot">SAFE WIFI HOTSPOT</string>
 
 </resources>
