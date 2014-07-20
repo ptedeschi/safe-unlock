@@ -1,0 +1,10 @@
+project(':ORM') {
+    apply plugin: 'application'
+    apply plugin: 'java'
+
+    mainClassName = "br.com.tedeschi.safeunlock.orm.DaoGenerator"
+
+    dependencies {
+        compile('de.greenrobot:DaoGenerator:1.3.0')
+    }
+}
