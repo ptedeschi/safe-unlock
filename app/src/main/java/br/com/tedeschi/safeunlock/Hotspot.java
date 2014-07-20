@@ -6,7 +6,6 @@ package br.com.tedeschi.safeunlock;
 public class Hotspot {
     private String ssid = null;
     private String bssid = null;
-    private boolean safe = false;
 
     public String getSSID() {
         return ssid;
@@ -24,12 +23,8 @@ public class Hotspot {
         this.bssid = bssid;
     }
 
-    public void setSafe(boolean safe) {
-        this.safe = safe;
-    }
-
     @Override
     public String toString() {
-        return ssid;
+        return ssid.replace("\"", "");
     }
 }

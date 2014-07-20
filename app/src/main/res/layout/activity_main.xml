@@ -3,31 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:padding="20dip">
+    android:padding="16dp">
 
+    <TextView
+        android:paddingBottom="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:id="@+id/header_general"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="GENERAL"
+        android:layout_alignParentTop="true" />
+
+    <View
+        android:layout_below="@+id/header_general"
+        android:id="@+id/divider1"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray" />
 
     <Switch
+        android:paddingTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/option_enable"
         android:id="@+id/switch_enable"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/divider1"
         android:layout_centerHorizontal="false" />
 
     <TextView
-        android:paddingTop="10dp"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textViewHeader"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/header_hotspot"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Select a safe Wifi hotspot"
+        android:text="SAFE WIFI HOTSPOT"
         android:layout_below="@+id/switch_enable" />
+
+    <View
+        android:layout_below="@+id/header_hotspot"
+        android:id="@+id/divider2"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_below="@+id/textViewHeader" />
+        android:layout_below="@+id/header_hotspot"
+        android:layout_above="@+id/adView"/>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adUnitId="@string/admob_id"
+        ads:adSize="BANNER" android:layout_alignParentBottom="true"
+        />
+
 
 </RelativeLayout>

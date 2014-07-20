@@ -65,7 +65,6 @@ public class NetworkUtil {
                     Hotspot hotspot = new Hotspot();
                     hotspot.setSSID(x.SSID);
                     hotspot.setBSSID(x.BSSID);
-                    hotspot.setSafe(false);
 
                     list.add(hotspot);
                 }
