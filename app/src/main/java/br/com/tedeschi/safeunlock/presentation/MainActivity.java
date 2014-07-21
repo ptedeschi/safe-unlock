@@ -1,4 +1,4 @@
-package br.com.tedeschi.safeunlock;
+package br.com.tedeschi.safeunlock.presentation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -15,6 +15,12 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import br.com.tedeschi.safeunlock.NetworkUtil;
+import br.com.tedeschi.safeunlock.R;
+import br.com.tedeschi.safeunlock.Util;
+import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
+import br.com.tedeschi.safeunlock.business.ConnectionBO;
+
 
 public class MainActivity extends ActionBarActivity {
     private ListView mListView = null;
@@ -24,13 +30,19 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ConnectionBO connectionBO = new ConnectionBO(this);
+
+        if (connectionBO.count() <= 0) {
+            connectionBO.insertAll(NetworkUtil.getConfiguredNetworks(this));
+        }
+
         mListView = (ListView) findViewById(R.id.listView);
-        mListView.setAdapter(new HotspotAdapter(this, NetworkUtil.getConfiguredNetworks(this)));
+        mListView.setAdapter(new HotspotAdapter(this, connectionBO.getAll()));
 
         mListView.setItemsCanFocus(false);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        AdView adView = (AdView)this.findViewById(R.id.adView);
+        AdView adView = (AdView) this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("485A638A8A6A15D3EA1FD2E659272FC3")
@@ -57,15 +69,14 @@ public class MainActivity extends ActionBarActivity {
         switch (id) {
             case R.id.action_about:
                 // Linkify the message
-                String message = String.format("SafeUnlock %s\n©2014 Tedeschi\ndeveloper@tedeschi.com.br\nhttp://www.tedeschi.com.br", Util.getVersion(this));
+                String message = String.format("%s %s\n%s\n%s\n%s", getString(R.string.app_name), Util.getVersion(this), getString(R.string.app_copyright), getString(R.string.app_email), getString(R.string.app_site));
 
                 SpannableString s = new SpannableString(message);
                 Linkify.addLinks(s, Linkify.ALL);
 
                 AlertDialog alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT)
                         .setPositiveButton(android.R.string.ok, null)
-                                //.setIcon(R.drawable.icon)
-                        .setTitle("About")
+                        .setTitle(getString(R.string.dialog_about_title))
                         .setMessage(s)
                         .create();
 

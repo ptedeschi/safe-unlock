@@ -2,14 +2,20 @@
 <resources>
 
     <string name="app_name">Safe Unlock</string>
+    <string name="app_copyright">©2014 Tedeschi</string>
+    <string name="app_email">developer@tedeschi.com.br</string>
+    <string name="app_site">http://www.tedeschi.com.br</string>
 
-    <string name="option_enable">Enable or disable the app</string>
+    <string name="option_enable">Habilita ou desabilita a aplicação</string>
 
-    <string name="action_about">About</string>
-    <string name="action_share">Share This App</string>
-    <string name="action_rate">Rate This App</string>
+    <string name="action_about">Sobre</string>
+    <string name="action_share">Compartilhe esta app</string>
+    <string name="action_rate">Avalie esta app</string>
 
     <string name="admob_id">ca-app-pub-8558420540395538/1889767422</string>
-    <string name="header_general">GENERAL</string>
+    <string name="header_general">GERAL</string>
+    <string name="header_wifi_hotspot">Redes WiFi seguras</string>
+
+    <string name="dialog_about_title">Sobre</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package br.com.tedeschi.safeunlock;
+package br.com.tedeschi.safeunlock.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,24 +10,31 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.tedeschi.safeunlock.R;
+import br.com.tedeschi.safeunlock.business.ConnectionBO;
+import br.com.tedeschi.safeunlock.persistence.vo.Connection;
+
 /**
- * Custom adapter for displaying an array of Planet objects.
+ * Custom adapter for displaying an array of Connection objects.
  */
-public class HotspotAdapter extends ArrayAdapter<Hotspot> {
+public class HotspotAdapter extends ArrayAdapter<Connection> {
 
     private LayoutInflater inflater;
+    private Context mContext = null;
 
-    public HotspotAdapter(Context context, List<Hotspot> planetList) {
-        super(context, R.layout.list_row, planetList);
+    public HotspotAdapter(Context context, List<Connection> connectionList) {
+        super(context, R.layout.list_row, connectionList);
 
         // Cache the LayoutInflate to avoid asking for a new one each time.
         inflater = LayoutInflater.from(context);
+
+        mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Planet to display
-        Hotspot planet = (Hotspot) this.getItem(position);
+        // Connection to display
+        Connection connection = (Connection) this.getItem(position);
 
         // The child views in each row.
         CheckBox checkBox;
@@ -45,12 +52,15 @@ public class HotspotAdapter extends ArrayAdapter<Hotspot> {
             // call findViewById() later when we reuse the row.
             convertView.setTag(new HotspotViewHolder(textView, checkBox));
 
-            // If CheckBox is toggled, update the planet it is tagged with.
+            // If CheckBox is toggled, update the connection it is tagged with.
             checkBox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;
-                    Hotspot planet = (Hotspot) cb.getTag();
-                    planet.setChecked(cb.isChecked());
+                    Connection conn = (Connection) cb.getTag();
+                    conn.setChecked(cb.isChecked());
+
+            ConnectionBO connectionBO = new ConnectionBO(mContext);
+            connectionBO.update(conn);
                 }
             });
         }
@@ -62,13 +72,13 @@ public class HotspotAdapter extends ArrayAdapter<Hotspot> {
             textView = viewHolder.getTextView();
         }
 
-        // Tag the CheckBox with the Planet it is displaying, so that we can
-        // access the planet in onClick() when the CheckBox is toggled.
-        checkBox.setTag(planet);
+        // Tag the CheckBox with the Connection it is displaying, so that we can
+        // access the connect in onClick() when the CheckBox is toggled.
+        checkBox.setTag(connection);
 
-        // Display planet data
-        checkBox.setChecked(planet.isChecked());
-        textView.setText(planet.getSSID().replace("\"", ""));
+        // Display connection data
+        checkBox.setChecked(connection.getChecked());
+        textView.setText(connection.getName().replace("\"", ""));
 
         return convertView;
     }

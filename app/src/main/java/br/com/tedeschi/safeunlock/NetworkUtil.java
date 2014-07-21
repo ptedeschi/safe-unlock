@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.tedeschi.safeunlock.persistence.vo.Connection;
+
 /**
  * Created by tedeschi on 7/14/14.
  */
@@ -50,8 +52,8 @@ public class NetworkUtil {
         return status;
     }
 
-    public static List<Hotspot> getConfiguredNetworks(Context context) {
-        List<Hotspot> list = null;
+    public static List<Connection> getConfiguredNetworks(Context context) {
+        List<Connection> list = null;
 
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
@@ -59,12 +61,15 @@ public class NetworkUtil {
             List<WifiConfiguration> wifiConfigurationList = wifiManager.getConfiguredNetworks();
 
             if (null != wifiConfigurationList && wifiConfigurationList.size() > 0) {
-                list = new ArrayList<Hotspot>();
+                list = new ArrayList<Connection>();
 
                 for (WifiConfiguration x:wifiConfigurationList) {
-                    Hotspot hotspot = new Hotspot();
-                    hotspot.setSSID(x.SSID);
-                    hotspot.setBSSID(x.BSSID);
+                    Connection hotspot = new Connection();
+
+                    hotspot.setName(x.SSID);
+                    hotspot.setUniqueId("BSSID");
+                    hotspot.setType(0);
+                    hotspot.setChecked(false);
 
                     list.add(hotspot);
                 }

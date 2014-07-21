@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">Safe Unlock</string>
+    <string name="app_copyright">©2014 Tedeschi</string>
+    <string name="app_email">developer@tedeschi.com.br</string>
+    <string name="app_site">http://www.tedeschi.com.br</string>
 
     <string name="option_enable">Enable or disable the app</string>
 
@@ -12,5 +15,6 @@
     <string name="admob_id">ca-app-pub-8558420540395538/1889767422</string>
     <string name="header_general">GENERAL</string>
     <string name="header_wifi_hotspot">SAFE WIFI HOTSPOT</string>
+    <string name="dialog_about_title">About</string>
 
 </resources>
