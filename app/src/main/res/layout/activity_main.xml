@@ -2,11 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="16dp">
+    tools:context=".MainActivity">
 
     <TextView
-        android:paddingBottom="10dp"
+        android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textStyle="bold"
         android:id="@+id/header_general"
@@ -23,18 +22,18 @@
         android:background="@android:color/darker_gray" />
 
     <Switch
-        android:paddingTop="10dp"
+    <!--Switch
+        android:padding="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/option_enable"
         android:id="@+id/switch_enable"
         android:layout_below="@+id/divider1"
-        android:layout_centerHorizontal="false" />
 
+    
     <TextView
         android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
+        android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/header_hotspot"
         android:layout_width="fill_parent"
@@ -50,6 +49,7 @@
         android:background="@android:color/darker_gray" />
 
     <ListView
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ads:adUnitId="@string/admob_id"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
 
         />

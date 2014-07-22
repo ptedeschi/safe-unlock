@@ -2,6 +2,7 @@ package br.com.tedeschi.safeunlock;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by tedeschi on 7/19/14.
@@ -46,18 +47,19 @@ public class KeyguardManager {
             mKeyguardLock = km.newKeyguardLock("MyKeyguardLock");
         }
 
-        try {
-            Log.d(TAG, "Reenable before disabling for safety");
+        if (enable) {
+            Log.d(TAG, "Keyguard reenabled");
 
             mKeyguardLock.reenableKeyguard();
-        } catch (Exception e) {
-            Log.e(TAG, "Probably already reenabled: " + e.getMessage());
-        }
+            mKeyguardLock = null;
 
-        if (!enable) {
-            Log.d(TAG, "Disabling keyguard");
+            Toast.makeText(context, "Keyguard reenabled", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "Keyguard disabled");
 
             mKeyguardLock.disableKeyguard();
+
+            Toast.makeText(context, "Keyguard disabled", Toast.LENGTH_SHORT).show();
         }
 
         Log.d(TAG, "-handleKeyguard");

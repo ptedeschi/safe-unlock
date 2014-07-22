@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import br.com.tedeschi.safeunlock.KeyguardManager;
 import br.com.tedeschi.safeunlock.NetworkUtil;
@@ -21,11 +20,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String status = NetworkUtil.getConnectivityStatusString(context);
-        System.out.println("status: " + status);
 
-        String action = intent.getAction();
-
-        Toast.makeText(context, action, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "status: " + status);
+        Log.d(TAG, "action: " + intent.getAction());
 
         handleChange(context);
     }
