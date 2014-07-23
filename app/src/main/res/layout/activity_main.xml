@@ -21,14 +21,13 @@
         android:layout_height="2dp"
         android:background="@android:color/darker_gray" />
 
-    <Switch
-    <!--Switch
+    <org.jraf.android.backport.switchwidget.Switch
         android:padding="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/option_enable"
         android:id="@+id/switch_enable"
-        android:layout_below="@+id/divider1"
+        android:layout_below="@+id/divider1"/>
 
     
     <TextView

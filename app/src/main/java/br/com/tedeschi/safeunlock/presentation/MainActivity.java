@@ -3,15 +3,16 @@ package br.com.tedeschi.safeunlock.presentation;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -22,7 +23,7 @@ import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends SherlockActivity {
     private ListView mListView = null;
 
     @Override
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("485A638A8A6A15D3EA1FD2E659272FC3")
+                .addTestDevice("C3C40ED34A942DE4298EABB8EBF71D90")
                 .build();
         adView.loadAd(adRequest);
     }
@@ -54,8 +56,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @SuppressLint("NewApi")
@@ -74,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
                 SpannableString s = new SpannableString(message);
                 Linkify.addLinks(s, Linkify.ALL);
 
-                AlertDialog alertDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT)
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
                         .setPositiveButton(android.R.string.ok, null)
                         .setTitle(getString(R.string.dialog_about_title))
                         .setMessage(s)

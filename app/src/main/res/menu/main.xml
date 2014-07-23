@@ -1,20 +1,24 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity" >
-    <item android:id="@+id/action_about"
-        android:title="@string/action_about"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_share"
-        android:title="@string/action_share"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_overflow"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark"
+        android:showAsAction="always"
+        android:title="home_action_menu">
 
-    <item android:id="@+id/action_rate"
-        android:title="@string/action_rate"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        <!-- "overflow" submenu -->
+        <menu>
+            <item
+                android:id="@+id/action_about"
+                android:title="@string/action_about" />
+            <item
+                android:id="@+id/action_share"
+                android:title="@string/action_share" />
+            <item
+                android:id="@+id/action_rate"
+                android:title="@string/action_rate" />
+        </menu>
+    </item>
 
 </menu>
