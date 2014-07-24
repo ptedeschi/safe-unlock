@@ -2,6 +2,7 @@ package br.com.tedeschi.safeunlock.presentation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -21,6 +22,7 @@ import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
+import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
 public class MainActivity extends SherlockActivity {
@@ -50,6 +52,9 @@ public class MainActivity extends SherlockActivity {
                 .addTestDevice("C3C40ED34A942DE4298EABB8EBF71D90")
                 .build();
         adView.loadAd(adRequest);
+
+        Intent service = new Intent(this, UnlockService.class);
+        startService(service);
     }
 
 

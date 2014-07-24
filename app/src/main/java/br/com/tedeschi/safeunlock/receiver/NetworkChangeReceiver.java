@@ -19,17 +19,17 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String status = NetworkUtil.getConnectivityStatusString(context);
+        //String status = NetworkUtil.getConnectivityStatusString(context);
 
-        Log.d(TAG, "status: " + status);
-        Log.d(TAG, "action: " + intent.getAction());
-
-        handleChange(context);
+//        Log.d(TAG, "status: " + status);
+//        Log.d(TAG, "action: " + intent.getAction());
+//
+//        handleChange(context);
     }
 
     private void handleChange(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService (Context.WIFI_SERVICE);
-        WifiInfo info = wifiManager.getConnectionInfo ();
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifiManager.getConnectionInfo();
 
         String ssid = info.getSSID();
         ConnectionBO connectionBO = new ConnectionBO(context);
@@ -44,8 +44,4 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             KeyguardManager.getInstance().enable(context);
         }
     }
-
-
-
-
 }
