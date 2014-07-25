@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
@@ -42,7 +43,10 @@ public class UnlockService extends Service {
         super.onCreate();
 
         mNetworkChangeReceiver = new NetworkChangeReceiver();
-        registerReceiver(mNetworkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        registerReceiver(mNetworkChangeReceiver, filter);
 
         this.mLock = ((KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE)).newKeyguardLock("br.com.tedeschi.safeunlock.keyguard");
     }
@@ -82,10 +86,15 @@ public class UnlockService extends Service {
                 Log.d(TAG, "Inside safe area. Disabling keyguard");
 
                 disablelockDevice();
+
+                Toast.makeText(context, "Keyguard disabled", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d(TAG, "Outside safe area. Reenabling keyguard");
 
                 enablelockDevice();
+
+                Toast.makeText(context, "Keyguard reenabled", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
