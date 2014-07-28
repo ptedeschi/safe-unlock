@@ -2,6 +2,9 @@ package br.com.tedeschi.safeunlock.presentation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -17,6 +20,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import br.com.tedeschi.safeunlock.DeviceAdmin;
 import br.com.tedeschi.safeunlock.NetworkUtil;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
@@ -32,6 +36,15 @@ public class MainActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize Device Policy Manager service and our receiver class
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName componentName = new ComponentName(this, DeviceAdmin.class);
+
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Your boss told you to do this");
+        startActivity(intent);
 
         ConnectionBO connectionBO = new ConnectionBO(this);
 
