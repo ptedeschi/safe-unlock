@@ -1,76 +1,28 @@
 package br.com.tedeschi.safeunlock.service;
 
-import android.app.KeyguardManager;
 import android.app.Service;
-import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import br.com.tedeschi.safeunlock.DeviceAdmin;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
+import br.com.tedeschi.safeunlock.manager.AdminManager;
+import br.com.tedeschi.safeunlock.manager.KeyguardLockManager;
 
 // http://khurramitdeveloper.blogspot.in/2013/06/start-activity-or-service-on-boot.html
 public class UnlockService extends Service {
 
-    private KeyguardManager.KeyguardLock mLock;
+
     private BroadcastReceiver mNetworkChangeReceiver;
 
     public UnlockService() {
-    }
-
-    private void disablelockDevice() {
-        this.mLock.disableKeyguard();
-        resetPassword(this);
-    }
-
-    private void enablelockDevice() {
-        this.mLock.reenableKeyguard();
-        setPassword(this, "1111");
-    }
-
-    public void enableAdmin(Context context) {
-        // Initialize Device Policy Manager service and our receiver class
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName componentName = new ComponentName(context, DeviceAdmin.class);
-
-        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Your boss told you to do this");
-        context.startActivity(intent);
-    }
-
-    public void disableAdmin() {
-
-    }
-
-    public boolean isAdminEnabled() {
-        return false;
-    }
-
-    public void setPassword(Context context, String password) {
-        // Initialize Device Policy Manager service and our receiver class
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName componentName = new ComponentName(context, DeviceAdmin.class);
-
-        devicePolicyManager.setPasswordMinimumLength(componentName, 0);
-        boolean result = devicePolicyManager.resetPassword(password, DevicePolicyManager.RESET_PASSWORD_REQUIRE_ENTRY);
-    }
-
-    public void resetPassword(Context context) {
-        // Initialize Device Policy Manager service and our receiver class
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName componentName = new ComponentName(context, DeviceAdmin.class);
-
-        devicePolicyManager.setPasswordMinimumLength(componentName, 0);
-        boolean result = devicePolicyManager.resetPassword("", DevicePolicyManager.RESET_PASSWORD_REQUIRE_ENTRY);
     }
 
     @Override
@@ -83,21 +35,23 @@ public class UnlockService extends Service {
         Toast.makeText(getApplicationContext(), "Service Created", Toast.LENGTH_SHORT).show();
         super.onCreate();
 
-        //enableAdmin(this);
+        KeyguardLockManager.getInstance().initialize(this);
 
         mNetworkChangeReceiver = new NetworkChangeReceiver();
         IntentFilter filter = new IntentFilter();
-        //filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        //filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
+        // Monitor changes in Network state
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+
+        // Monitor changes in Screen state
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
 
+        filter.addAction("br.com.tedeschi.safeunlock.ACTION_SAFE_STATE_CHANGED");
+
         registerReceiver(mNetworkChangeReceiver, filter);
-
-        this.mLock = ((KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE)).newKeyguardLock("br.com.tedeschi.safeunlock.keyguard");
     }
-
 
     @Override
     public void onDestroy() {
@@ -112,6 +66,7 @@ public class UnlockService extends Service {
     }
 
     private class NetworkChangeReceiver extends BroadcastReceiver {
+
         private final String TAG = NetworkChangeReceiver.class.getSimpleName();
 
         public NetworkChangeReceiver() {
@@ -119,8 +74,7 @@ public class UnlockService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            System.out.println("WPT014 " + intent.getAction());
-
+            Log.d(TAG, intent.getAction());
 
             handleChange(context);
         }
@@ -135,16 +89,17 @@ public class UnlockService extends Service {
             if (null != ssid && connectionBO.isSafe(ssid)) {
                 Log.d(TAG, "Inside safe area. Disabling keyguard");
 
-                disablelockDevice();
+                AdminManager.getInstance().setPassword(context, "");
+                KeyguardLockManager.getInstance().unlock();
 
                 Toast.makeText(context, "Keyguard disabled", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d(TAG, "Outside safe area. Reenabling keyguard");
 
-                enablelockDevice();
+                AdminManager.getInstance().setPassword(context, "1111");
+                KeyguardLockManager.getInstance().lock();
 
                 Toast.makeText(context, "Keyguard reenabled", Toast.LENGTH_SHORT).show();
-
             }
         }
     }

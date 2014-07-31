@@ -20,8 +20,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import br.com.tedeschi.safeunlock.DeviceAdmin;
-import br.com.tedeschi.safeunlock.NetworkUtil;
+import br.com.tedeschi.safeunlock.manager.NetworkManager;
+import br.com.tedeschi.safeunlock.receiver.DeviceAdmin;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
@@ -49,7 +49,7 @@ public class MainActivity extends SherlockActivity {
         ConnectionBO connectionBO = new ConnectionBO(this);
 
         if (connectionBO.count() <= 0) {
-            connectionBO.insertAll(NetworkUtil.getConfiguredNetworks(this));
+            connectionBO.insertAll(NetworkManager.getConfiguredNetworks(this));
         }
 
         mListView = (ListView) findViewById(R.id.listView);

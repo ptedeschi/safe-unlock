@@ -1,4 +1,4 @@
-package br.com.tedeschi.safeunlock;
+package br.com.tedeschi.safeunlock.manager;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,7 +14,7 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 /**
  * Created by tedeschi on 7/14/14.
  */
-public class NetworkUtil {
+public class NetworkManager {
     public static int TYPE_WIFI = 1;
     public static int TYPE_MOBILE = 2;
     public static int TYPE_NOT_CONNECTED = 0;
@@ -38,14 +38,14 @@ public class NetworkUtil {
     }
 
     public static String getConnectivityStatusString(Context context) {
-        int conn = NetworkUtil.getConnectivityStatus(context);
+        int conn = NetworkManager.getConnectivityStatus(context);
         String status = null;
 
-        if (conn == NetworkUtil.TYPE_WIFI) {
+        if (conn == NetworkManager.TYPE_WIFI) {
             status = "Wifi enabled";
-        } else if (conn == NetworkUtil.TYPE_MOBILE) {
+        } else if (conn == NetworkManager.TYPE_MOBILE) {
             status = "Mobile data enabled";
-        } else if (conn == NetworkUtil.TYPE_NOT_CONNECTED) {
+        } else if (conn == NetworkManager.TYPE_NOT_CONNECTED) {
             status = "Not connected to Internet";
         }
 

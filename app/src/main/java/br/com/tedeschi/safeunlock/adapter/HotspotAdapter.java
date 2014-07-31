@@ -1,6 +1,7 @@
 package br.com.tedeschi.safeunlock.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 public class HotspotAdapter extends ArrayAdapter<Connection> {
 
     private LayoutInflater inflater;
+
     private Context mContext = null;
 
     public HotspotAdapter(Context context, List<Connection> connectionList) {
@@ -59,8 +61,13 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
                     Connection conn = (Connection) cb.getTag();
                     conn.setChecked(cb.isChecked());
 
-            ConnectionBO connectionBO = new ConnectionBO(mContext);
-            connectionBO.update(conn);
+                    ConnectionBO connectionBO = new ConnectionBO(mContext);
+                    connectionBO.update(conn);
+
+                    // Notify changes
+                    Intent intent = new Intent();
+                    intent.setAction("br.com.tedeschi.safeunlock.ACTION_SAFE_STATE_CHANGED");
+                    mContext.sendBroadcast(intent);
                 }
             });
         }
@@ -89,7 +96,9 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
  * Holds child views for one row.
  */
 class HotspotViewHolder {
+
     private CheckBox checkBox;
+
     private TextView textView;
 
     public HotspotViewHolder() {

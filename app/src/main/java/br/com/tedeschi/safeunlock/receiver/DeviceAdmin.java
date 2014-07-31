@@ -1,4 +1,4 @@
-package br.com.tedeschi.safeunlock;
+package br.com.tedeschi.safeunlock.receiver;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
