@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.PowerManager;
 
 /**
  * Created by tedeschi on 7/19/14.
@@ -42,6 +43,13 @@ public class Util {
         } catch (ActivityNotFoundException e) {
             context.startActivity(new Intent(Intent.ACTION_VIEW, getStoreURL(context)));
         }
+    }
+
+    public static boolean isScreenOn(Context context)
+    {
+        boolean result = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn();
+
+        return result;
     }
 
     private static String getPackageName(Context context) {

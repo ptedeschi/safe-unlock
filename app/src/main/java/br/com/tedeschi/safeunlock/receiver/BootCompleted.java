@@ -4,30 +4,42 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.widget.Toast;
+import android.util.Log;
 
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
 public class BootCompleted extends BroadcastReceiver {
-    public BootCompleted() {
-    }
+    private static final String TAG = BootCompleted.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        System.out.println("onReceive BootCompleted");
+        Log.d(TAG, "+onReceive");
 
-        if (null != context && null != intent) {
-            String action = intent.getAction();
+        if (null != context) {
+            if (null != intent) {
+                String action = intent.getAction();
 
-            if (!TextUtils.isEmpty(action)) {
-                if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-                    Toast.makeText(context, "ACTION_BOOT_COMPLETED", Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(action)) {
+                    Log.d(TAG, "Action: " + action);
 
-                    // Start Service On Boot Start Up
-                    Intent service = new Intent(context, UnlockService.class);
-                    context.startService(service);
+                    if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+                        // Starts service after device is started
+
+                        Log.d(TAG, "Boot completed... Starting Unlock Service");
+
+                        Intent service = new Intent(context, UnlockService.class);
+                        context.startService(service);
+                    }
+                } else {
+                    Log.d(TAG, "Invalid action");
                 }
+            } else {
+                Log.d(TAG, "Invalid Intent");
             }
+        } else {
+            Log.d(TAG, "Invalid context");
         }
+
+        Log.d(TAG, "+onReceive");
     }
 }

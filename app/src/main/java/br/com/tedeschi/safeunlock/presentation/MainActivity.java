@@ -2,9 +2,6 @@ package br.com.tedeschi.safeunlock.presentation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -17,34 +14,27 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import br.com.tedeschi.safeunlock.manager.NetworkManager;
-import br.com.tedeschi.safeunlock.receiver.DeviceAdmin;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
+import br.com.tedeschi.safeunlock.manager.NetworkManager;
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
 public class MainActivity extends SherlockActivity {
     private ListView mListView = null;
+    // private static final String FLURRY_API_KEY = "F2GBYND5V2RFTF3X4KVZ"; // Prod
+    private static final String FLURRY_API_KEY = "VP8RKFCQ4D695SR75832"; // Dev
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Initialize Device Policy Manager service and our receiver class
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-        ComponentName componentName = new ComponentName(this, DeviceAdmin.class);
-
-        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Your boss told you to do this");
-        startActivity(intent);
 
         ConnectionBO connectionBO = new ConnectionBO(this);
 
@@ -68,6 +58,23 @@ public class MainActivity extends SherlockActivity {
 
         Intent service = new Intent(this, UnlockService.class);
         startService(service);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        FlurryAgent.onStartSession(this, FLURRY_API_KEY);
+        FlurryAgent.setCaptureUncaughtExceptions(true);
+        FlurryAgent.setLogEnabled(true);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
     }
 
 

@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
+
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.R;
@@ -68,6 +70,8 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
                     Intent intent = new Intent();
                     intent.setAction("br.com.tedeschi.safeunlock.ACTION_SAFE_STATE_CHANGED");
                     mContext.sendBroadcast(intent);
+
+                    FlurryAgent.logEvent("Safe areas changed");
                 }
             });
         }
