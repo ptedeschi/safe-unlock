@@ -18,11 +18,14 @@ import com.flurry.android.FlurryAgent;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.List;
+
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.manager.NetworkManager;
+import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
@@ -39,7 +42,11 @@ public class MainActivity extends SherlockActivity {
         ConnectionBO connectionBO = new ConnectionBO(this);
 
         if (connectionBO.count() <= 0) {
-            connectionBO.insertAll(NetworkManager.getConfiguredNetworks(this));
+            List<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(this);
+
+            if (null != configuredNetworks && configuredNetworks.size() > 0) {
+                connectionBO.insertAll(configuredNetworks);
+            }
         }
 
         mListView = (ListView) findViewById(R.id.listView);

@@ -2,6 +2,7 @@ package br.com.tedeschi.safeunlock.manager;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.os.PowerManager;
 import android.util.Log;
 
 /**
@@ -12,6 +13,7 @@ public class KeyguardLockManager {
 
     private static KeyguardLockManager mInstance = null;
     private KeyguardManager mKeyguardManager = null;
+    private PowerManager mPowerManager = null;
     private KeyguardManager.KeyguardLock mKeyguardLock = null;
 
     private KeyguardLockManager() {
@@ -34,6 +36,7 @@ public class KeyguardLockManager {
         Log.d(TAG, "Initializing KeyguardLock");
 
         mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mKeyguardLock = mKeyguardManager.newKeyguardLock(context.getPackageName());
 
         Log.d(TAG, "-initialize");
@@ -61,7 +64,16 @@ public class KeyguardLockManager {
         if (null != mKeyguardLock) {
             Log.d(TAG, "Reenabling Keyguard");
 
-            mKeyguardLock.reenableKeyguard();
+            if (!mPowerManager.isScreenOn()) {
+                mKeyguardManager.exitKeyguardSecurely(new KeyguardManager.OnKeyguardExitResult() {
+                    @Override
+                    public void onKeyguardExitResult(boolean success) {
+                        mKeyguardLock.reenableKeyguard();
+                    }
+                });
+            } else {
+                mKeyguardLock.reenableKeyguard();
+            }
         } else {
             Log.e(TAG, "Invalid KeyguardLock... Have you called initialize?");
         }

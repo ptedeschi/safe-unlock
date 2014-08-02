@@ -13,6 +13,7 @@ import com.flurry.android.FlurryAgent;
 
 import java.util.List;
 
+import br.com.tedeschi.safeunlock.Constants;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
@@ -68,7 +69,7 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
 
                     // Notify changes
                     Intent intent = new Intent();
-                    intent.setAction("br.com.tedeschi.safeunlock.ACTION_SAFE_STATE_CHANGED");
+                    intent.setAction(Constants.ACTION_SAFE_CHANGED);
                     mContext.sendBroadcast(intent);
 
                     FlurryAgent.logEvent("Safe areas changed");

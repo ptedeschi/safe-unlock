@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
  * Created by tedeschi on 7/14/14.
  */
 public class NetworkManager {
+    private static final String TAG = NetworkManager.class.getSimpleName();
+
     public static int TYPE_WIFI = 1;
     public static int TYPE_MOBILE = 2;
     public static int TYPE_NOT_CONNECTED = 0;
@@ -53,6 +57,8 @@ public class NetworkManager {
     }
 
     public static List<Connection> getConfiguredNetworks(Context context) {
+        Log.d(TAG, "+getConfiguredNetworks");
+
         List<Connection> list = null;
 
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -64,17 +70,27 @@ public class NetworkManager {
                 list = new ArrayList<Connection>();
 
                 for (WifiConfiguration x:wifiConfigurationList) {
-                    Connection hotspot = new Connection();
+                    if (!TextUtils.isEmpty(x.SSID)) {
+                        Log.d(TAG, "Found configured network: " + x);
 
-                    hotspot.setName(x.SSID);
-                    hotspot.setUniqueId("BSSID");
-                    hotspot.setType(0);
-                    hotspot.setChecked(false);
+                        Connection hotspot = new Connection();
 
-                    list.add(hotspot);
+                        hotspot.setName(x.SSID);
+                        hotspot.setUniqueId("BSSID");
+                        hotspot.setType(0);
+                        hotspot.setChecked(false);
+
+                        list.add(hotspot);
+                    }
                 }
+            } else {
+                Log.d(TAG, "Could not find any configured networks");
             }
+        } else {
+            Log.e(TAG, "Invalid WifiManager");
         }
+
+        Log.d(TAG, "-getConfiguredNetworks");
 
         return list;
     }

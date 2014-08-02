@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
+import br.com.tedeschi.safeunlock.Constants;
 import br.com.tedeschi.safeunlock.business.LockBO;
 import br.com.tedeschi.safeunlock.manager.KeyguardLockManager;
 
@@ -65,8 +66,11 @@ public class UnlockService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
 
+        // Monitor when user is present
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+
         // Monitor changes in Safe list
-        filter.addAction("br.com.tedeschi.safeunlock.ACTION_SAFE_STATE_CHANGED");
+        filter.addAction(Constants.ACTION_SAFE_CHANGED);
 
         registerReceiver(mNetworkChangeReceiver, filter);
 
@@ -76,6 +80,8 @@ public class UnlockService extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG, "Service Destroy");
+
+        unregisterReceiver(mNetworkChangeReceiver);
 
         super.onDestroy();
     }
