@@ -29,11 +29,18 @@ public class LockBO {
                     Log.d(TAG, "SSID: " + ssid);
 
                     ConnectionBO connectionBO = new ConnectionBO(context);
+                    SettingsBO settingsBO = new SettingsBO(context);
 
                     if (!TextUtils.isEmpty(ssid) && connectionBO.isSafe(ssid)) {
-                        Log.d(TAG, "Inside safe area. Ordering to disable the keyguard");
+                        if (settingsBO.isEnabled()) {
+                            Log.d(TAG, "Inside safe area. Ordering to disable the keyguard");
 
-                        KeyguardLockManager.getInstance().unlock();
+                            KeyguardLockManager.getInstance().unlock();
+                        } else {
+                            Log.d(TAG, "App is disabled. Ordering to enable the keyguard...");
+
+                            KeyguardLockManager.getInstance().lock();
+                        }
                     } else {
                         Log.d(TAG, "Outside safe area. Ordering to enable the keyguard...");
 

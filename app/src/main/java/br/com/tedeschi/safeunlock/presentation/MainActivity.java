@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ import com.flurry.android.FlurryAgent;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.jraf.android.backport.switchwidget.Switch;
+
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.Constants;
@@ -27,6 +30,8 @@ import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter.CheckBoxListener;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
+import br.com.tedeschi.safeunlock.business.LockBO;
+import br.com.tedeschi.safeunlock.business.SettingsBO;
 import br.com.tedeschi.safeunlock.manager.NetworkManager;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 import br.com.tedeschi.safeunlock.service.UnlockService;
@@ -35,6 +40,7 @@ import br.com.tedeschi.safeunlock.service.UnlockService;
 public class MainActivity extends SherlockActivity implements CheckBoxListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private Switch mSwitch = null;
     private ListView mListView = null;
 
     @Override
@@ -42,7 +48,22 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mSwitch = (Switch) findViewById(R.id.switch_enable);
+
+        final SettingsBO settingsBO = new SettingsBO(this);
+        mSwitch.setChecked(settingsBO.isEnabled());
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                settingsBO.setEnabled(checked);
+
+                LockBO.handleChange(MainActivity.this);
+            }
+        });
+
         ConnectionBO connectionBO = new ConnectionBO(this);
+
+
 
         if (connectionBO.count() <= 0) {
             List<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(this);
