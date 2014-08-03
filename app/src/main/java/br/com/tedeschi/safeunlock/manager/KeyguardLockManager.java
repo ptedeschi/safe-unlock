@@ -33,8 +33,6 @@ public class KeyguardLockManager {
     public void initialize(Context context) {
         Log.d(TAG, "+initialize");
 
-        Log.d(TAG, "Initializing KeyguardLock");
-
         mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mKeyguardLock = mKeyguardManager.newKeyguardLock(context.getPackageName());
@@ -61,21 +59,26 @@ public class KeyguardLockManager {
     public void lock() {
         Log.d(TAG, "+lock");
 
-        if (null != mKeyguardLock) {
-            Log.d(TAG, "Reenabling Keyguard");
-
-            if (!mPowerManager.isScreenOn()) {
-                mKeyguardManager.exitKeyguardSecurely(new KeyguardManager.OnKeyguardExitResult() {
-                    @Override
-                    public void onKeyguardExitResult(boolean success) {
-                        mKeyguardLock.reenableKeyguard();
-                    }
-                });
+        // Avoid lock if its already locked
+        if (!isKeyguardShowing()) {
+            if (null != mKeyguardLock) {
+                if (!mPowerManager.isScreenOn()) {
+                    mKeyguardManager.exitKeyguardSecurely(new KeyguardManager.OnKeyguardExitResult() {
+                        @Override
+                        public void onKeyguardExitResult(boolean success) {
+                            Log.d(TAG, "Reenabling Keyguard (forced)");
+                            mKeyguardLock.reenableKeyguard();
+                        }
+                    });
+                } else {
+                    Log.d(TAG, "Reenabling Keyguard");
+                    mKeyguardLock.reenableKeyguard();
+                }
             } else {
-                mKeyguardLock.reenableKeyguard();
+                Log.e(TAG, "Invalid KeyguardLock... Have you called initialize?");
             }
         } else {
-            Log.e(TAG, "Invalid KeyguardLock... Have you called initialize?");
+            Log.d(TAG, "Already locked");
         }
 
         Log.d(TAG, "-lock");
@@ -84,12 +87,16 @@ public class KeyguardLockManager {
     public void unlock() {
         Log.d(TAG, "+unlock");
 
-        if (null != mKeyguardLock) {
-            Log.d(TAG, "Disabling Keyguard");
-
-            mKeyguardLock.disableKeyguard();
+        // Avoid lock if its already locked
+        if (!isKeyguardShowing()) {
+            if (null != mKeyguardLock) {
+                Log.d(TAG, "Disabling Keyguard");
+                mKeyguardLock.disableKeyguard();
+            } else {
+                Log.e(TAG, "Invalid KeyguardLock... Have you called initialize?");
+            }
         } else {
-            Log.e(TAG, "Invalid KeyguardLock... Have you called initialize?");
+            Log.d(TAG, "Showing keyguard... Not unlocking to avoid the Home press issue");
         }
 
         Log.d(TAG, "-unlock");

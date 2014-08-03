@@ -1,6 +1,7 @@
 package br.com.tedeschi.safeunlock.business;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -48,10 +49,15 @@ public class ConnectionBO {
     }
 
     public boolean isSafe(String uniqueId) {
+        uniqueId = uniqueId.replace("\"", "");
+
         List<Connection> list = mConnectionDao.loadAll();
 
         if (null != list) {
             for(Connection x:list) {
+                Log.d(TAG, "Safe UniqueId: " + x.getUniqueId());
+                Log.d(TAG, "Safe Checked: " + x.getChecked());
+
                 if (x.getName().equals(uniqueId) && x.getChecked()) {
                     return true;
                 }

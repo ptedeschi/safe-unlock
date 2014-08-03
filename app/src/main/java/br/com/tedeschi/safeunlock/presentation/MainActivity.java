@@ -55,33 +55,38 @@ public class MainActivity extends SherlockActivity {
         mListView.setItemsCanFocus(false);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        AdView adView = (AdView) this.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("485A638A8A6A15D3EA1FD2E659272FC3")
-                .addTestDevice("C3C40ED34A942DE4298EABB8EBF71D90")
-                .build();
-        adView.loadAd(adRequest);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
+            AdView adView = (AdView) this.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .addTestDevice("485A638A8A6A15D3EA1FD2E659272FC3")
+                    .addTestDevice("C3C40ED34A942DE4298EABB8EBF71D90")
+                    .build();
+            adView.loadAd(adRequest);
+        }
 
         Intent service = new Intent(this, UnlockService.class);
         startService(service);
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
-        FlurryAgent.onStartSession(this, FLURRY_API_KEY);
-        FlurryAgent.setCaptureUncaughtExceptions(true);
-        FlurryAgent.setLogEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+            FlurryAgent.onStartSession(this, FLURRY_API_KEY);
+            FlurryAgent.setCaptureUncaughtExceptions(true);
+            FlurryAgent.setLogEnabled(true);
+        }
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
-        FlurryAgent.onEndSession(this);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+            FlurryAgent.onEndSession(this);
+        }
     }
 
 

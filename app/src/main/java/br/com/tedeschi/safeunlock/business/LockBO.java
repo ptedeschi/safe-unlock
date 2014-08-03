@@ -1,7 +1,6 @@
 package br.com.tedeschi.safeunlock.business;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
@@ -14,8 +13,6 @@ import br.com.tedeschi.safeunlock.manager.KeyguardLockManager;
  */
 public class LockBO {
     private static final String TAG = LockBO.class.getSimpleName();
-    public static final String PREFS_NAME = "PrefsFile";
-    public static final String PREFS_LOCKED_KEY = "locked";
 
     public static void handleChange(Context context) {
         Log.d(TAG, "+handleChange");
@@ -34,17 +31,13 @@ public class LockBO {
                     ConnectionBO connectionBO = new ConnectionBO(context);
 
                     if (!TextUtils.isEmpty(ssid) && connectionBO.isSafe(ssid)) {
-                        Log.d(TAG, "Inside safe area. Disabling the keyguard");
+                        Log.d(TAG, "Inside safe area. Ordering to disable the keyguard");
 
-                        if (!KeyguardLockManager.getInstance().isKeyguardShowing()) {
-                            KeyguardLockManager.getInstance().unlock();
-                        }
+                        KeyguardLockManager.getInstance().unlock();
                     } else {
-                        Log.d(TAG, "Outside safe area. Reenabling the keyguard...");
+                        Log.d(TAG, "Outside safe area. Ordering to enable the keyguard...");
 
-                        if (!KeyguardLockManager.getInstance().isKeyguardShowing()) {
-                            KeyguardLockManager.getInstance().lock();
-                        }
+                        KeyguardLockManager.getInstance().lock();
                     }
                 } else {
                     Log.e(TAG, "Invalid wifiInfo");
@@ -57,18 +50,5 @@ public class LockBO {
         }
 
         Log.d(TAG, "-handleChange");
-    }
-
-    private static boolean isLocked(Context context) {
-        // Restore preferences
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return settings.getBoolean(PREFS_LOCKED_KEY, false);
-    }
-
-    private static void setIsLocked(Context context, boolean locked) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(PREFS_LOCKED_KEY, locked);
-        editor.commit();
     }
 }

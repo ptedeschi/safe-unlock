@@ -75,8 +75,10 @@ public class NetworkManager {
 
                         Connection hotspot = new Connection();
 
-                        hotspot.setName(x.SSID);
-                        hotspot.setUniqueId("BSSID");
+                        String ssid = x.SSID.replace("\"", "");
+
+                        hotspot.setName(ssid);
+                        hotspot.setUniqueId(ssid);
                         hotspot.setType(0);
                         hotspot.setChecked(false);
 
