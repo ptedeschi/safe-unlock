@@ -1,80 +1,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
 
     <TextView
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textStyle="bold"
-        android:id="@+id/header_general"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/header_general"
-        android:layout_alignParentTop="true" />
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:id="@+id/header_general"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_general"
+            android:layout_alignParentTop="true"/>
 
     <View
-        android:layout_below="@+id/header_general"
-        android:id="@+id/divider1"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/darker_gray" />
+            android:layout_below="@+id/header_general"
+            android:id="@+id/divider1"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"/>
 
     <org.jraf.android.backport.switchwidget.Switch
-        android:padding="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/option_enable"
-        android:id="@+id/switch_enable"
-        android:layout_below="@+id/divider1" />
+            android:padding="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option_enable"
+            android:id="@+id/switch_enable"
+            android:layout_below="@+id/divider1"/>
 
 
     <TextView
-        android:textStyle="bold"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/header_hotspot"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/header_wifi_hotspot"
-        android:layout_below="@+id/switch_enable" />
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/header_hotspot"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_wifi_hotspot"
+            android:layout_below="@+id/switch_enable"/>
 
     <View
-        android:layout_below="@+id/header_hotspot"
-        android:id="@+id/divider2"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/darker_gray" />
+            android:layout_below="@+id/header_hotspot"
+            android:id="@+id/divider2"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"/>
 
     <ListView
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/header_hotspot"
-        android:layout_above="@+id/adView" />
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_below="@+id/header_hotspot"
+            android:layout_above="@+id/adView"/>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ads:adUnitId="@string/admob_id"
-        ads:adSize="SMART_BANNER"
-        android:layout_alignParentBottom="true"
+                                       android:id="@+id/adView"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       ads:adUnitId="@string/admob_id"
+                                       ads:adSize="SMART_BANNER"
+                                       android:layout_alignParentBottom="true"
 
-        />
+            />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/no_available_networks"
-        android:id="@+id/textView_warning"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:padding="20dp"
-        android:visibility="gone" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/no_available_networks"
+            android:id="@+id/textView_warning"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:padding="20dp"
+            android:visibility="gone"/>
 
 
 </RelativeLayout>

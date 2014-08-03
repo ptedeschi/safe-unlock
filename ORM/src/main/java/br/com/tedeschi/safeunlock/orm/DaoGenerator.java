@@ -4,17 +4,18 @@ import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
-    /** persistence package */
-    protected static final String PACKAGE = "br.com.tedeschi.safeunlock";
-
-    /** project source path */
-    protected static final String PROJECT_SRC = "../app/src/main/java";
 
     /** VO sub-package constant */
     public static final String VO_SUBPACKAGE = ".persistence.vo";
 
     /** DAO sub-package constant */
     public static final String DAO_SUBPACKAGE = ".persistence.dao";
+
+    /** persistence package */
+    protected static final String PACKAGE = "br.com.tedeschi.safeunlock";
+
+    /** project source path */
+    protected static final String PROJECT_SRC = "../app/src/main/java";
 
     /** database version */
     private static final int DB_VERSION = 1;

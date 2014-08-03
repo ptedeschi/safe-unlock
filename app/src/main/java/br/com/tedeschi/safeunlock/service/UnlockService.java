@@ -1,5 +1,7 @@
 package br.com.tedeschi.safeunlock.service;
 
+import com.flurry.android.FlurryAgent;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,8 +13,6 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.flurry.android.FlurryAgent;
-
 import br.com.tedeschi.safeunlock.Constants;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.business.LockBO;
@@ -23,6 +23,7 @@ public class UnlockService extends Service {
 
 
     private static final String TAG = UnlockService.class.getSimpleName();
+
     private BroadcastReceiver mNetworkChangeReceiver;
 
     public UnlockService() {

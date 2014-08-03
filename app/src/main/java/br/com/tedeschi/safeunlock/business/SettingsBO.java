@@ -7,13 +7,16 @@ import android.content.SharedPreferences;
  * Created by tedeschi on 8/3/14.
  */
 public class SettingsBO {
+
     /**
      * Tag for logging operations
      */
     private static final String TAG = SettingsBO.class.getSimpleName();
 
     private static final String PREFS_NAME = "PrefsFile";
+
     private static final String PREFS_ENABLED_KEY = "enabled";
+
     private Context mContext = null;
 
     public SettingsBO(Context context) {

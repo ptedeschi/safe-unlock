@@ -14,6 +14,7 @@ import android.os.PowerManager;
 public class Util {
 
     public static final String GOOGLE_PLAY_BASE_URL = "http://play.google.com/store/apps/details?id=";
+
     public static final String PLAY_STORE_BASE_URL = "market://details?id=";
 
     public static String getVersion(Context context) {
@@ -49,8 +50,7 @@ public class Util {
         }
     }
 
-    public static boolean isScreenOn(Context context)
-    {
+    public static boolean isScreenOn(Context context) {
         boolean result = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn();
 
         return result;

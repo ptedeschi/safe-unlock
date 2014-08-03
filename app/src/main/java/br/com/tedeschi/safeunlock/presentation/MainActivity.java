@@ -1,5 +1,16 @@
 package br.com.tedeschi.safeunlock.presentation;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.flurry.android.FlurryAgent;
+
+import org.jraf.android.backport.switchwidget.Switch;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,16 +23,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.flurry.android.FlurryAgent;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,9 +41,11 @@ import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
 public class MainActivity extends SherlockActivity implements CheckBoxListener {
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Switch mSwitch = null;
+
     private ListView mListView = null;
 
     @Override
@@ -51,7 +54,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         setContentView(R.layout.activity_main);
 
         mSwitch = (Switch) findViewById(R.id.switch_enable);
-        TextView warning = (TextView)findViewById(R.id.textView_warning);
+        TextView warning = (TextView) findViewById(R.id.textView_warning);
 
         final SettingsBO settingsBO = new SettingsBO(this);
         mSwitch.setChecked(settingsBO.isEnabled());
@@ -71,8 +74,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         if (null == databaseNetworks || databaseNetworks.size() <= 0) {
             Log.d(TAG, "Database is empty. Insert all configured networks");
 
-            if (null != configuredNetworks &&configuredNetworks.size() > 0) {
-                connectionBO.insertAll((List)configuredNetworks);
+            if (null != configuredNetworks && configuredNetworks.size() > 0) {
+                connectionBO.insertAll((List) configuredNetworks);
             } else {
                 Log.e(TAG, "There's no configured networks");
                 warning.setVisibility(View.VISIBLE);
@@ -85,8 +88,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
                 }
             }
 
-            connectionBO.removeAll((List)databaseNetworks);
-            connectionBO.insertAll((List)configuredNetworks);
+            connectionBO.removeAll((List) databaseNetworks);
+            connectionBO.insertAll((List) configuredNetworks);
         }
 
         HotspotAdapter hotspotAdapter = new HotspotAdapter(this, connectionBO.getAll());

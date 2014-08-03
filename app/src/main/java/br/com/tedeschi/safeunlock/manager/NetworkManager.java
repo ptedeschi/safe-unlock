@@ -17,10 +17,13 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
  * Created by tedeschi on 7/14/14.
  */
 public class NetworkManager {
+
     private static final String TAG = NetworkManager.class.getSimpleName();
 
     public static int TYPE_WIFI = 1;
+
     public static int TYPE_MOBILE = 2;
+
     public static int TYPE_NOT_CONNECTED = 0;
 
 
@@ -31,11 +34,13 @@ public class NetworkManager {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         if (null != activeNetwork) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                 return TYPE_WIFI;
+            }
 
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return TYPE_MOBILE;
+            }
         }
 
         return TYPE_NOT_CONNECTED;
@@ -69,7 +74,7 @@ public class NetworkManager {
             if (null != wifiConfigurationList && wifiConfigurationList.size() > 0) {
                 list = new ArrayList<Connection>();
 
-                for (WifiConfiguration x:wifiConfigurationList) {
+                for (WifiConfiguration x : wifiConfigurationList) {
                     if (!TextUtils.isEmpty(x.SSID)) {
                         Log.d(TAG, "Found configured network: " + x);
 

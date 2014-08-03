@@ -17,10 +17,6 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
  * Custom adapter for displaying an array of Connection objects.
  */
 public class HotspotAdapter extends ArrayAdapter<Connection> {
-    public interface CheckBoxListener {
-        public void onCheckBoxToggled(Connection conecction, boolean checked);
-    }
-
 
     private LayoutInflater inflater;
 
@@ -91,6 +87,11 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
         textView.setText(connection.getName().replace("\"", ""));
 
         return convertView;
+    }
+
+    public interface CheckBoxListener {
+
+        public void onCheckBoxToggled(Connection conecction, boolean checked);
     }
 
 }

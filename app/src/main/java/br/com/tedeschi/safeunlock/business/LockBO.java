@@ -12,6 +12,7 @@ import br.com.tedeschi.safeunlock.manager.KeyguardLockManager;
  * Created by tedeschi on 7/31/14.
  */
 public class LockBO {
+
     private static final String TAG = LockBO.class.getSimpleName();
 
     public static void handleChange(Context context) {

@@ -13,6 +13,7 @@ import br.com.tedeschi.safeunlock.persistence.vo.Connection;
  * Created by tedeschi on 7/20/14.
  */
 public class ConnectionBO {
+
     /** Tag for logging operations */
     private static final String TAG = ConnectionBO.class.getSimpleName();
 
@@ -34,7 +35,7 @@ public class ConnectionBO {
 
     public void insertAll(List<Connection> connections) {
         if (null != connections) {
-            for(Connection x:connections) {
+            for (Connection x : connections) {
                 Log.d(TAG, "WPT014 Inserting " + x.getName());
             }
         }
@@ -56,7 +57,7 @@ public class ConnectionBO {
 
     public void removeAll(List<Connection> connections) {
         if (null != connections) {
-            for(Connection x:connections) {
+            for (Connection x : connections) {
                 Log.d(TAG, "WPT014 Deleting " + x.getName());
             }
         }
@@ -70,7 +71,7 @@ public class ConnectionBO {
         List<Connection> list = mConnectionDao.loadAll();
 
         if (null != list) {
-            for(Connection x:list) {
+            for (Connection x : list) {
                 Log.d(TAG, "Safe UniqueId: " + x.getUniqueId());
                 Log.d(TAG, "Safe Checked: " + x.getChecked());
 
@@ -90,7 +91,7 @@ public class ConnectionBO {
         List<Connection> list = mConnectionDao.loadAll();
 
         if (null != list) {
-            for(Connection x:list) {
+            for (Connection x : list) {
                 if (x.getName().equals(uniqueId)) {
                     return true;
                 }

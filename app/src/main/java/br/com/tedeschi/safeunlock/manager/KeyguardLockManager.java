@@ -9,11 +9,15 @@ import android.util.Log;
  * Created by patrick.tedeschi on 28/07/2014.
  */
 public class KeyguardLockManager {
+
     private static final String TAG = KeyguardLockManager.class.getSimpleName();
 
     private static KeyguardLockManager mInstance = null;
+
     private KeyguardManager mKeyguardManager = null;
+
     private PowerManager mPowerManager = null;
+
     private KeyguardManager.KeyguardLock mKeyguardLock = null;
 
     private KeyguardLockManager() {

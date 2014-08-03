@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_overflow"
-        android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark"
-        android:showAsAction="always"
-        android:title="home_action_menu">
+            android:id="@+id/menu_overflow"
+            android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark"
+            android:showAsAction="always"
+            android:title="home_action_menu">
 
         <!-- "overflow" submenu -->
         <menu>
             <item
-                android:id="@+id/action_about"
-                android:title="@string/action_about" />
+                    android:id="@+id/action_about"
+                    android:title="@string/action_about"/>
             <item
-                android:id="@+id/action_share"
-                android:title="@string/action_share" />
+                    android:id="@+id/action_share"
+                    android:title="@string/action_share"/>
             <item
-                android:id="@+id/action_rate"
-                android:title="@string/action_rate" />
+                    android:id="@+id/action_rate"
+                    android:title="@string/action_rate"/>
         </menu>
     </item>
 

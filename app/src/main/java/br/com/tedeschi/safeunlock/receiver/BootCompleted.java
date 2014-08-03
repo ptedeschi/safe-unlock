@@ -9,6 +9,7 @@ import android.util.Log;
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
 public class BootCompleted extends BroadcastReceiver {
+
     private static final String TAG = BootCompleted.class.getSimpleName();
 
     @Override
