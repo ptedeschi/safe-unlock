@@ -44,4 +44,31 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    // Product customization
+    productFlavors {
+        // Custom code and resources for production flavor
+        production {
+
+        }
+
+        // Custom code and resources for development flavor
+        development {
+
+        }
+    }
+
+    // Custom folders for each flavor
+    android.sourceSets.production {
+        res {
+            srcDir 'flavor/production/res'
+        }
+    }
+
+    android.sourceSets.development {
+        res {
+            srcDir 'flavor/development/res'
+        }
+    }
+
 }

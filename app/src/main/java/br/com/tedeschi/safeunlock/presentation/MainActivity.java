@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,19 +21,21 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
+import br.com.tedeschi.safeunlock.Constants;
 import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
+import br.com.tedeschi.safeunlock.adapter.HotspotAdapter.CheckBoxListener;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.manager.NetworkManager;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
-public class MainActivity extends SherlockActivity {
+public class MainActivity extends SherlockActivity implements CheckBoxListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private ListView mListView = null;
-    // private static final String FLURRY_API_KEY = "F2GBYND5V2RFTF3X4KVZ"; // Prod
-    private static final String FLURRY_API_KEY = "VP8RKFCQ4D695SR75832"; // Dev
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,14 @@ public class MainActivity extends SherlockActivity {
             }
         }
 
-        mListView = (ListView) findViewById(R.id.listView);
-        mListView.setAdapter(new HotspotAdapter(this, connectionBO.getAll()));
+        HotspotAdapter hotspotAdapter = new HotspotAdapter(this, connectionBO.getAll());
+        hotspotAdapter.setListener(this);
 
-        mListView.setItemsCanFocus(false);
-        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mListView = (ListView) findViewById(R.id.listView);
+        mListView.setAdapter(hotspotAdapter);
+
+        //mListView.setItemsCanFocus(false);
+        //mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
             AdView adView = (AdView) this.findViewById(R.id.adView);
@@ -74,7 +80,7 @@ public class MainActivity extends SherlockActivity {
         super.onStart();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
-            FlurryAgent.onStartSession(this, FLURRY_API_KEY);
+            FlurryAgent.onStartSession(this, getString(R.string.flurry_api_key));
             FlurryAgent.setCaptureUncaughtExceptions(true);
             FlurryAgent.setLogEnabled(true);
         }
@@ -138,5 +144,20 @@ public class MainActivity extends SherlockActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCheckBoxToggled(Connection conecction, boolean checked) {
+        Log.d(TAG, "Connection checkbox changed: " + conecction.getName() + " -> " + checked);
+
+        conecction.setChecked(checked);
+
+        ConnectionBO connectionBO = new ConnectionBO(this);
+        connectionBO.update(conecction);
+
+        // Notify changes
+        Intent intent = new Intent();
+        intent.setAction(Constants.ACTION_SAFE_CHANGED);
+        sendBroadcast(intent);
     }
 }

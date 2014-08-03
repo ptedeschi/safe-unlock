@@ -11,7 +11,10 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.flurry.android.FlurryAgent;
+
 import br.com.tedeschi.safeunlock.Constants;
+import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.business.LockBO;
 import br.com.tedeschi.safeunlock.manager.KeyguardLockManager;
 
@@ -44,6 +47,12 @@ public class UnlockService extends Service {
         Log.d(TAG, "+onCreate");
 
         Log.d(TAG, "Service Created");
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+            FlurryAgent.onStartSession(this, getString(R.string.flurry_api_key));
+            FlurryAgent.setCaptureUncaughtExceptions(true);
+            FlurryAgent.setLogEnabled(true);
+        }
 
         KeyguardLockManager.getInstance().initialize(this);
 
@@ -82,6 +91,10 @@ public class UnlockService extends Service {
         Log.d(TAG, "Service Destroy");
 
         unregisterReceiver(mNetworkChangeReceiver);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+            FlurryAgent.onEndSession(this);
+        }
 
         super.onDestroy();
     }

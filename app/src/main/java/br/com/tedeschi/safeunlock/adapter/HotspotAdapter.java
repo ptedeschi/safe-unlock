@@ -1,7 +1,6 @@
 package br.com.tedeschi.safeunlock.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +8,25 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.flurry.android.FlurryAgent;
-
 import java.util.List;
 
-import br.com.tedeschi.safeunlock.Constants;
 import br.com.tedeschi.safeunlock.R;
-import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 
 /**
  * Custom adapter for displaying an array of Connection objects.
  */
 public class HotspotAdapter extends ArrayAdapter<Connection> {
+    public interface CheckBoxListener {
+        public void onCheckBoxToggled(Connection conecction, boolean checked);
+    }
+
 
     private LayoutInflater inflater;
 
     private Context mContext = null;
+
+    private CheckBoxListener mListener = null;
 
     public HotspotAdapter(Context context, List<Connection> connectionList) {
         super(context, R.layout.list_row, connectionList);
@@ -34,6 +35,10 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
         inflater = LayoutInflater.from(context);
 
         mContext = context;
+    }
+
+    public void setListener(CheckBoxListener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -60,19 +65,12 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
             // If CheckBox is toggled, update the connection it is tagged with.
             checkBox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    CheckBox cb = (CheckBox) v;
-                    Connection conn = (Connection) cb.getTag();
-                    conn.setChecked(cb.isChecked());
+                    if (null != mListener) {
+                        CheckBox checkBox = (CheckBox) v;
+                        Connection connection = (Connection) checkBox.getTag();
 
-                    ConnectionBO connectionBO = new ConnectionBO(mContext);
-                    connectionBO.update(conn);
-
-                    // Notify changes
-                    Intent intent = new Intent();
-                    intent.setAction(Constants.ACTION_SAFE_CHANGED);
-                    mContext.sendBroadcast(intent);
-
-                    FlurryAgent.logEvent("Safe areas changed");
+                        mListener.onCheckBoxToggled(connection, checkBox.isChecked());
+                    }
                 }
             });
         }
