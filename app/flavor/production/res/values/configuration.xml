@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="admob_id">ca-app-pub-8558420540395538/1889767422</string>
     <string name="flurry_api_key">F2GBYND5V2RFTF3X4KVZ</string>
 
 </resources>

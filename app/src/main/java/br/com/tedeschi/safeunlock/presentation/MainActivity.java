@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.google.android.gms.ads.AdView;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
+import java.util.Collection;
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.Constants;
@@ -49,6 +51,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         setContentView(R.layout.activity_main);
 
         mSwitch = (Switch) findViewById(R.id.switch_enable);
+        TextView warning = (TextView)findViewById(R.id.textView_warning);
 
         final SettingsBO settingsBO = new SettingsBO(this);
         mSwitch.setChecked(settingsBO.isEnabled());
@@ -62,15 +65,28 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         });
 
         ConnectionBO connectionBO = new ConnectionBO(this);
+        Collection<Connection> databaseNetworks = connectionBO.getAll();
+        Collection<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(this);
 
+        if (null == databaseNetworks || databaseNetworks.size() <= 0) {
+            Log.d(TAG, "Database is empty. Insert all configured networks");
 
-
-        if (connectionBO.count() <= 0) {
-            List<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(this);
-
-            if (null != configuredNetworks && configuredNetworks.size() > 0) {
-                connectionBO.insertAll(configuredNetworks);
+            if (null != configuredNetworks &&configuredNetworks.size() > 0) {
+                connectionBO.insertAll((List)configuredNetworks);
+            } else {
+                Log.e(TAG, "There's no configured networks");
+                warning.setVisibility(View.VISIBLE);
             }
+        } else if (null != databaseNetworks && null != configuredNetworks && configuredNetworks.size() >= 0) {
+            // Check if configured networks added / removed elements
+            for (Connection x : configuredNetworks) {
+                if (connectionBO.exists(x)) {
+                    x.setChecked(connectionBO.isSafe(x.getName()));
+                }
+            }
+
+            connectionBO.removeAll((List)databaseNetworks);
+            connectionBO.insertAll((List)configuredNetworks);
         }
 
         HotspotAdapter hotspotAdapter = new HotspotAdapter(this, connectionBO.getAll());

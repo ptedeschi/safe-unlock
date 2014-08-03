@@ -12,6 +12,10 @@ import android.os.PowerManager;
  * Created by tedeschi on 7/19/14.
  */
 public class Util {
+
+    public static final String GOOGLE_PLAY_BASE_URL = "http://play.google.com/store/apps/details?id=";
+    public static final String PLAY_STORE_BASE_URL = "market://details?id=";
+
     public static String getVersion(Context context) {
         String version = "Unknown";
 
@@ -30,8 +34,8 @@ public class Util {
     public static void share(Context context) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, getStoreURL(context) + "\nCheck out SafeUnlock app for Android");
-        context.startActivity(Intent.createChooser(intent, "Share with"));
+        intent.putExtra(Intent.EXTRA_TEXT, getStoreURL(context) + "\n\n" + context.getString(R.string.share_message));
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_title)));
     }
 
     public static void rate(Context context) {
@@ -57,10 +61,10 @@ public class Util {
     }
 
     private static Uri getStoreURL(Context context) {
-        return Uri.parse("http://play.google.com/store/apps/details?id=" + Util.getPackageName(context));
+        return Uri.parse(GOOGLE_PLAY_BASE_URL + Util.getPackageName(context));
     }
 
     private static Uri getGooglePlayLink(Context context) {
-        return Uri.parse("market://details?id=" + Util.getPackageName(context));
+        return Uri.parse(PLAY_STORE_BASE_URL + Util.getPackageName(context));
     }
 }

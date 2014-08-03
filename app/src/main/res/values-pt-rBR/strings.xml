@@ -7,15 +7,17 @@
     <string name="app_site">http://www.tedeschi.com.br</string>
 
     <string name="option_enable">Habilita ou desabilita a aplicação</string>
+    <string name="no_available_networks">Para ver as redes disponíveis, habilite o Wi-Fi.</string>
 
     <string name="action_about">Sobre</string>
     <string name="action_share">Compartilhe esta app</string>
     <string name="action_rate">Avalie esta app</string>
 
-    <string name="admob_id">ca-app-pub-8558420540395538/1889767422</string>
     <string name="header_general">GERAL</string>
     <string name="header_wifi_hotspot">Redes WiFi seguras</string>
 
     <string name="dialog_about_title">Sobre</string>
+    <string name="share_title">Compartilhe com</string>
+    <string name="share_message">Confira a aplicação Safe Unlock para Android</string>
 
 </resources>

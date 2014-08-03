@@ -33,6 +33,12 @@ public class ConnectionBO {
     }
 
     public void insertAll(List<Connection> connections) {
+        if (null != connections) {
+            for(Connection x:connections) {
+                Log.d(TAG, "WPT014 Inserting " + x.getName());
+            }
+        }
+
         mConnectionDao.insertInTx(connections);
     }
 
@@ -48,6 +54,16 @@ public class ConnectionBO {
         mConnectionDao.delete(connection);
     }
 
+    public void removeAll(List<Connection> connections) {
+        if (null != connections) {
+            for(Connection x:connections) {
+                Log.d(TAG, "WPT014 Deleting " + x.getName());
+            }
+        }
+
+        mConnectionDao.deleteInTx(connections);
+    }
+
     public boolean isSafe(String uniqueId) {
         uniqueId = uniqueId.replace("\"", "");
 
@@ -59,6 +75,23 @@ public class ConnectionBO {
                 Log.d(TAG, "Safe Checked: " + x.getChecked());
 
                 if (x.getName().equals(uniqueId) && x.getChecked()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean exists(Connection connection) {
+        String uniqueId = connection.getName();
+        uniqueId = uniqueId.replace("\"", "");
+
+        List<Connection> list = mConnectionDao.loadAll();
+
+        if (null != list) {
+            for(Connection x:list) {
+                if (x.getName().equals(uniqueId)) {
                     return true;
                 }
             }
