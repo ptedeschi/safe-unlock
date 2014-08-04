@@ -36,7 +36,7 @@ public class ConnectionBO {
     public void insertAll(List<Connection> connections) {
         if (null != connections) {
             for (Connection x : connections) {
-                Log.d(TAG, "WPT014 Inserting " + x.getName());
+                Log.d(TAG, "Inserting " + x.getName());
             }
         }
 
@@ -58,7 +58,7 @@ public class ConnectionBO {
     public void removeAll(List<Connection> connections) {
         if (null != connections) {
             for (Connection x : connections) {
-                Log.d(TAG, "WPT014 Deleting " + x.getName());
+                Log.d(TAG, "Deleting " + x.getName());
             }
         }
 
