@@ -6,4 +6,8 @@
         <item name="switchStyle">@style/Widget.Holo.Light.CompoundButton.Switch</item>
     </style>
 
+    <style name="SplashTheme" parent="@style/Theme.Sherlock.Light.NoActionBar">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
 </resources>

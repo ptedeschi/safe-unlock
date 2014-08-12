@@ -98,15 +98,11 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         mListView = (ListView) findViewById(R.id.listView);
         mListView.setAdapter(hotspotAdapter);
 
-        //mListView.setItemsCanFocus(false);
-        //mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
             AdView adView = (AdView) this.findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder()
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .addTestDevice("485A638A8A6A15D3EA1FD2E659272FC3")
-                    .addTestDevice("C3C40ED34A942DE4298EABB8EBF71D90")
                     .build();
             adView.loadAd(adRequest);
         }
