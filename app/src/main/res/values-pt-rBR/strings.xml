@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Safe Unlock</string>
+    <string name="app_name">safe unlock</string>
     <string name="app_copyright">©2014 Tedeschi</string>
     <string name="app_email">developer@tedeschi.com.br</string>
     <string name="app_site">http://www.tedeschi.com.br</string>
@@ -9,6 +9,7 @@
     <string name="option_enable">Habilita ou desabilita a aplicação</string>
     <string name="no_available_networks">Para ver as redes disponíveis, habilite o Wi-Fi.</string>
 
+    <string name="action_refresh">Atualizar</string>
     <string name="action_about">Sobre</string>
     <string name="action_share">Compartilhe esta app</string>
     <string name="action_rate">Avalie esta app</string>

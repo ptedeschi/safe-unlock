@@ -153,6 +153,9 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.action_refresh:
+                break;
+
             case R.id.action_about:
                 // Linkify the message
                 String message = String.format("%s %s\n%s\n%s\n%s", getString(R.string.app_name), Util.getVersion(this), getString(R.string.app_copyright), getString(R.string.app_email), getString(R.string.app_site));

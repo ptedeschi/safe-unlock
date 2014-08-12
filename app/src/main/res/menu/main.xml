@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+            android:id="@+id/action_refresh"
+            android:title="@string/action_refresh"
+            android:icon="@drawable/ic_action_refresh_icon"
+            android:showAsAction="always"/>
+
+    <item
             android:id="@+id/menu_overflow"
             android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark"
             android:showAsAction="always"
