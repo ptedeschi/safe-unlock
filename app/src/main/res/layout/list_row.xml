@@ -25,7 +25,8 @@
             android:ellipsize="end"
             android:lines="1"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:paddingRight="10dp"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
 
     <CheckBox
             android:id="@+id/checkBox"

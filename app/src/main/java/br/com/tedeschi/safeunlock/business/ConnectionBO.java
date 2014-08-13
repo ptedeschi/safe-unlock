@@ -3,8 +3,10 @@ package br.com.tedeschi.safeunlock.business;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.Collection;
 import java.util.List;
 
+import br.com.tedeschi.safeunlock.manager.NetworkManager;
 import br.com.tedeschi.safeunlock.persistence.dao.ConnectionDao;
 import br.com.tedeschi.safeunlock.persistence.dao.DaoManager;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
@@ -23,8 +25,12 @@ public class ConnectionBO {
     /** Connection data access object */
     private ConnectionDao mConnectionDao = null;
 
+    /** Application context. */
+    private Context mContext = null;
+
 
     public ConnectionBO(Context context) {
+        mContext = context;
         mDaoManager = DaoManager.getInstance(context);
         mConnectionDao = mDaoManager.getDaoSession().getConnectionDao();
     }
@@ -48,6 +54,27 @@ public class ConnectionBO {
     }
 
     public List<Connection> getAll() {
+        Collection<Connection> databaseNetworks = mConnectionDao.loadAll();
+        Collection<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(mContext);
+
+        if (null == databaseNetworks || databaseNetworks.size() <= 0) {
+            Log.d(TAG, "Database is empty. Insert all configured networks");
+
+            if (null != configuredNetworks && configuredNetworks.size() > 0) {
+                insertAll((List) configuredNetworks);
+            }
+        } else if (null != databaseNetworks && null != configuredNetworks && configuredNetworks.size() >= 0) {
+            // Check if configured networks added / removed elements
+            for (Connection x : configuredNetworks) {
+                if (exists(x)) {
+                    x.setChecked(isSafe(x.getName()));
+                }
+            }
+
+            removeAll((List) databaseNetworks);
+            insertAll((List) configuredNetworks);
+        }
+
         return mConnectionDao.loadAll();
     }
 

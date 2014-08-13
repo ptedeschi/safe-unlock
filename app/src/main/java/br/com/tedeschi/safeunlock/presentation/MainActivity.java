@@ -24,7 +24,6 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Collection;
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.Constants;
@@ -35,7 +34,6 @@ import br.com.tedeschi.safeunlock.adapter.HotspotAdapter.CheckBoxListener;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.business.LockBO;
 import br.com.tedeschi.safeunlock.business.SettingsBO;
-import br.com.tedeschi.safeunlock.manager.NetworkManager;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
 import br.com.tedeschi.safeunlock.service.UnlockService;
 
@@ -48,13 +46,17 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
 
     private ListView mListView = null;
 
+    private HotspotAdapter mHotspotAdapter = null;
+
+    private TextView mWarning = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mSwitch = (Switch) findViewById(R.id.switch_enable);
-        TextView warning = (TextView) findViewById(R.id.textView_warning);
+        mWarning = (TextView) findViewById(R.id.textView_warning);
 
         final SettingsBO settingsBO = new SettingsBO(this);
         mSwitch.setChecked(settingsBO.isEnabled());
@@ -67,36 +69,22 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
             }
         });
 
+        // Get all connection items and handle visibility of warning if needed
         ConnectionBO connectionBO = new ConnectionBO(this);
-        Collection<Connection> databaseNetworks = connectionBO.getAll();
-        Collection<Connection> configuredNetworks = NetworkManager.getConfiguredNetworks(this);
+        List<Connection> list = connectionBO.getAll();
 
-        if (null == databaseNetworks || databaseNetworks.size() <= 0) {
-            Log.d(TAG, "Database is empty. Insert all configured networks");
-
-            if (null != configuredNetworks && configuredNetworks.size() > 0) {
-                connectionBO.insertAll((List) configuredNetworks);
-            } else {
-                Log.e(TAG, "There's no configured networks");
-                warning.setVisibility(View.VISIBLE);
-            }
-        } else if (null != databaseNetworks && null != configuredNetworks && configuredNetworks.size() >= 0) {
-            // Check if configured networks added / removed elements
-            for (Connection x : configuredNetworks) {
-                if (connectionBO.exists(x)) {
-                    x.setChecked(connectionBO.isSafe(x.getName()));
-                }
-            }
-
-            connectionBO.removeAll((List) databaseNetworks);
-            connectionBO.insertAll((List) configuredNetworks);
+        if (null == list || list.size() <= 0) {
+            Log.e(TAG, "There's no configured networks");
+            mWarning.setVisibility(View.VISIBLE);
+        } else {
+            mWarning.setVisibility(View.GONE);
         }
 
-        HotspotAdapter hotspotAdapter = new HotspotAdapter(this, connectionBO.getAll());
-        hotspotAdapter.setListener(this);
+        mHotspotAdapter = new HotspotAdapter(this, list);
+        mHotspotAdapter.setListener(this);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mListView.setAdapter(hotspotAdapter);
+        mListView.setAdapter(mHotspotAdapter);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
             AdView adView = (AdView) this.findViewById(R.id.adView);
@@ -137,6 +125,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -150,6 +139,19 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
 
         switch (id) {
             case R.id.action_refresh:
+                // Get all connection items and handle visibility of warning if needed
+                ConnectionBO connectionBO = new ConnectionBO(this);
+                List<Connection> list = connectionBO.getAll();
+
+                if (null == list || list.size() <= 0) {
+                    Log.e(TAG, "There's no configured networks");
+                    mWarning.setVisibility(View.VISIBLE);
+                } else {
+                    mWarning.setVisibility(View.GONE);
+                }
+
+                mHotspotAdapter.clear();
+                mHotspotAdapter.addAll(list);
                 break;
 
             case R.id.action_about:
