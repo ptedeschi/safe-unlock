@@ -156,7 +156,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
 
             case R.id.action_about:
                 // Linkify the message
-                String message = String.format("%s %s\n%s\n%s\n%s", getString(R.string.app_name), Util.getVersion(this), getString(R.string.app_copyright), getString(R.string.app_email), getString(R.string.app_site));
+                String message = String.format("%s\nv%s\n%s\n%s", getString(R.string.app_name), Util.getVersion(this), getString(R.string.app_copyright), getString(R.string.app_email));
 
                 SpannableString s = new SpannableString(message);
                 Linkify.addLinks(s, Linkify.ALL);
