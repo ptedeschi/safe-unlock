@@ -25,7 +25,7 @@ public class ConnectionDao extends AbstractDao<Connection, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "id");
         public final static Property Name = new Property(1, String.class, "name", false, "name");
-        public final static Property UniqueId = new Property(2, String.class, "uniqueId", false, "uniqueId");
+        public final static Property Address = new Property(2, String.class, "address", false, "address");
         public final static Property Type = new Property(3, int.class, "type", false, "type");
         public final static Property Checked = new Property(4, Boolean.class, "checked", false, "checked");
     };
@@ -45,7 +45,7 @@ public class ConnectionDao extends AbstractDao<Connection, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'TB_CONNECTION' (" + //
                 "'id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'name' TEXT NOT NULL ," + // 1: name
-                "'uniqueId' TEXT NOT NULL ," + // 2: uniqueId
+                "'address' TEXT NOT NULL ," + // 2: address
                 "'type' INTEGER NOT NULL ," + // 3: type
                 "'checked' boolean);"); // 4: checked
     }
@@ -66,7 +66,7 @@ public class ConnectionDao extends AbstractDao<Connection, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getName());
-        stmt.bindString(3, entity.getUniqueId());
+        stmt.bindString(3, entity.getAddress());
         stmt.bindLong(4, entity.getType());
  
         Boolean checked = entity.getChecked();
@@ -87,7 +87,7 @@ public class ConnectionDao extends AbstractDao<Connection, Long> {
         Connection entity = new Connection( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // name
-            cursor.getString(offset + 2), // uniqueId
+            cursor.getString(offset + 2), // address
             cursor.getInt(offset + 3), // type
             cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0 // checked
         );
@@ -99,7 +99,7 @@ public class ConnectionDao extends AbstractDao<Connection, Long> {
     public void readEntity(Cursor cursor, Connection entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.getString(offset + 1));
-        entity.setUniqueId(cursor.getString(offset + 2));
+        entity.setAddress(cursor.getString(offset + 2));
         entity.setType(cursor.getInt(offset + 3));
         entity.setChecked(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
      }

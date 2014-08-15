@@ -14,7 +14,7 @@ import br.com.tedeschi.safeunlock.persistence.vo.Settings;
 /** 
  * DAO for table TB_SETTINGS.
 */
-public class SettingsDao extends AbstractDao<Settings, Long> {
+public class SettingsDao extends AbstractDao<Settings, Void> {
 
     public static final String TABLENAME = "TB_SETTINGS";
 
@@ -23,8 +23,8 @@ public class SettingsDao extends AbstractDao<Settings, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "id");
-        public final static Property Enabled = new Property(1, Boolean.class, "enabled", false, "enabled");
+        public final static Property Key = new Property(0, String.class, "key", false, "key");
+        public final static Property Value = new Property(1, String.class, "value", false, "value");
     };
 
 
@@ -40,8 +40,8 @@ public class SettingsDao extends AbstractDao<Settings, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'TB_SETTINGS' (" + //
-                "'id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "'enabled' boolean);"); // 1: enabled
+                "'key' TEXT NOT NULL UNIQUE ," + // 0: key
+                "'value' TEXT);"); // 1: value
     }
 
     /** Drops the underlying database table. */
@@ -54,30 +54,26 @@ public class SettingsDao extends AbstractDao<Settings, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, Settings entity) {
         stmt.clearBindings();
+        stmt.bindString(1, entity.getKey());
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
- 
-        Boolean enabled = entity.getEnabled();
-        if (enabled != null) {
-            stmt.bindLong(2, enabled ? 1l: 0l);
+        String value = entity.getValue();
+        if (value != null) {
+            stmt.bindString(2, value);
         }
     }
 
     /** @inheritdoc */
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public Void readKey(Cursor cursor, int offset) {
+        return null;
     }    
 
     /** @inheritdoc */
     @Override
     public Settings readEntity(Cursor cursor, int offset) {
         Settings entity = new Settings( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0 // enabled
+            cursor.getString(offset + 0), // key
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // value
         );
         return entity;
     }
@@ -85,25 +81,21 @@ public class SettingsDao extends AbstractDao<Settings, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Settings entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setEnabled(cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0);
+        entity.setKey(cursor.getString(offset + 0));
+        entity.setValue(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     /** @inheritdoc */
     @Override
-    protected Long updateKeyAfterInsert(Settings entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected Void updateKeyAfterInsert(Settings entity, long rowId) {
+        // Unsupported or missing PK type
+        return null;
     }
     
     /** @inheritdoc */
     @Override
-    public Long getKey(Settings entity) {
-        if(entity != null) {
-            return entity.getId();
-        } else {
-            return null;
-        }
+    public Void getKey(Settings entity) {
+        return null;
     }
 
     /** @inheritdoc */

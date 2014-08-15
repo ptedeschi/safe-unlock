@@ -27,15 +27,15 @@ public class DaoGenerator {
         Entity settings = schema.addEntity("Settings");
         settings.setTableName("TB_SETTINGS");
         settings.setHasKeepSections(true);
-        settings.addLongProperty("id").columnName("id").primaryKey().autoincrement();
-        settings.addBooleanProperty("enabled").columnName("enabled").columnType("boolean");
+        settings.addStringProperty("key").columnName("key").unique().notNull();
+        settings.addStringProperty("value").columnName("value");
 
         Entity connection = schema.addEntity("Connection");
         connection.setTableName("TB_CONNECTION");
         connection.setHasKeepSections(true);
         connection.addLongProperty("id").columnName("id").primaryKey().autoincrement();
         connection.addStringProperty("name").columnName("name").notNull();
-        connection.addStringProperty("uniqueId").columnName("uniqueId").notNull();
+        connection.addStringProperty("address").columnName("address").notNull();
         connection.addIntProperty("type").columnName("type").notNull();
         connection.addBooleanProperty("checked").columnName("checked").columnType("boolean");
 

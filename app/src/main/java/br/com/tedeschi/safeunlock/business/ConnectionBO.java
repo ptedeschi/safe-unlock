@@ -99,7 +99,7 @@ public class ConnectionBO {
 
         if (null != list) {
             for (Connection x : list) {
-                Log.d(TAG, "Safe UniqueId: " + x.getUniqueId());
+                Log.d(TAG, "Safe Address: " + x.getAddress());
                 Log.d(TAG, "Safe Checked: " + x.getChecked());
 
                 if (x.getName().equals(uniqueId) && x.getChecked()) {

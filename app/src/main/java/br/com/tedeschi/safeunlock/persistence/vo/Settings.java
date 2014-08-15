@@ -9,8 +9,9 @@ package br.com.tedeschi.safeunlock.persistence.vo;
  */
 public class Settings {
 
-    private Long id;
-    private Boolean enabled;
+    /** Not-null value. */
+    private String key;
+    private String value;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -18,29 +19,27 @@ public class Settings {
     public Settings() {
     }
 
-    public Settings(Long id) {
-        this.id = id;
+    public Settings(String key, String value) {
+        this.key = key;
+        this.value = value;
     }
 
-    public Settings(Long id, Boolean enabled) {
-        this.id = id;
-        this.enabled = enabled;
+    /** Not-null value. */
+    public String getKey() {
+        return key;
     }
 
-    public Long getId() {
-        return id;
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getValue() {
+        return value;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     // KEEP METHODS - put your custom methods here

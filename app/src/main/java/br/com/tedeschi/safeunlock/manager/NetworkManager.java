@@ -83,7 +83,7 @@ public class NetworkManager {
                         String ssid = x.SSID.replace("\"", "");
 
                         hotspot.setName(ssid);
-                        hotspot.setUniqueId(ssid);
+                        hotspot.setAddress(ssid);
                         hotspot.setType(0);
                         hotspot.setChecked(false);
 

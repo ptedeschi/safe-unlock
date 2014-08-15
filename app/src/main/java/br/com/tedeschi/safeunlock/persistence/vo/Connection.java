@@ -13,7 +13,7 @@ public class Connection {
     /** Not-null value. */
     private String name;
     /** Not-null value. */
-    private String uniqueId;
+    private String address;
     private int type;
     private Boolean checked;
 
@@ -27,10 +27,10 @@ public class Connection {
         this.id = id;
     }
 
-    public Connection(Long id, String name, String uniqueId, int type, Boolean checked) {
+    public Connection(Long id, String name, String address, int type, Boolean checked) {
         this.id = id;
         this.name = name;
-        this.uniqueId = uniqueId;
+        this.address = address;
         this.type = type;
         this.checked = checked;
     }
@@ -54,13 +54,13 @@ public class Connection {
     }
 
     /** Not-null value. */
-    public String getUniqueId() {
-        return uniqueId;
+    public String getAddress() {
+        return address;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getType() {

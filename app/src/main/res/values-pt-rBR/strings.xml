@@ -15,10 +15,10 @@
     <string name="action_rate">Avalie esta app</string>
 
     <string name="header_general">GERAL</string>
-    <string name="header_wifi_hotspot">Redes WiFi seguras</string>
+    <string name="header_wifi_hotspot">LUGARES SEGUROS</string>
 
     <string name="dialog_about_title">Sobre</string>
     <string name="share_title">Compartilhe com</string>
-    <string name="share_message">Confira a aplicação Safe Unlock para Android</string>
+    <string name="share_message">Confira a aplicação safe unlock para Android</string>
 
 </resources>
