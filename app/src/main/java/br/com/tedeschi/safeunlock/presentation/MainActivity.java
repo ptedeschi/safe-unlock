@@ -151,7 +151,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
                 }
 
                 mHotspotAdapter.clear();
-                mHotspotAdapter.addAll(list);
+                mHotspotAdapter.addAllEx(list);
                 break;
 
             case R.id.action_about:
