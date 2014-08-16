@@ -11,7 +11,7 @@
               android:textColor="#ffffff"
               android:textStyle="bold"
               android:textSize="50sp"
-              android:text="safe"/>
+              android:text="@string/app_name_splitted_safe"/>
 
     <TextView android:id="@+id/textViewAppName2"
               android:layout_width="wrap_content"
@@ -19,6 +19,6 @@
               android:textColor="#ffffff"
               android:textStyle="normal"
               android:textSize="50sp"
-              android:text="unlock"/>
+              android:text="@string/app_name_splitted_unlock"/>
 
 </LinearLayout>
