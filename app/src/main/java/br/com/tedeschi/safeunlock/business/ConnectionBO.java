@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.manager.NetworkManager;
@@ -75,7 +76,13 @@ public class ConnectionBO {
             insertAll((List) configuredNetworks);
         }
 
-        return mConnectionDao.loadAll();
+        List<Connection> result = mConnectionDao.loadAll();
+
+        if (null != result && result.size() > 0) {
+            Collections.sort(result);
+        }
+
+        return result;
     }
 
     public void remove(Connection connection) {
