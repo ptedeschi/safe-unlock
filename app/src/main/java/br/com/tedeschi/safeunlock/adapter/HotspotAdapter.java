@@ -1,5 +1,6 @@
 package br.com.tedeschi.safeunlock.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -94,6 +95,7 @@ public class HotspotAdapter extends ArrayAdapter<Connection> {
      * Adds the specified Collection at the end of the array.
      * @param collection The Collection to add at the end of the array.
      */
+    @SuppressLint("NewApi")
     public void addAllEx(List<Connection> collection) {
         if (null != collection && collection.size() > 0) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
