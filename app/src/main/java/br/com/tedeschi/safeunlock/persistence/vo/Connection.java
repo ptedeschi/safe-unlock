@@ -7,7 +7,7 @@ package br.com.tedeschi.safeunlock.persistence.vo;
 /**
  * Entity mapped to table TB_CONNECTION.
  */
-public class Connection implements Comparable {
+public class Connection {
 
     private Long id;
     /** Not-null value. */
@@ -80,15 +80,6 @@ public class Connection implements Comparable {
     }
 
     // KEEP METHODS - put your custom methods here
-    @Override public int compareTo(Object o) {
-        Connection connection = (Connection) o;
-
-        if (connection.getChecked()) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
     // KEEP METHODS END
 
 }

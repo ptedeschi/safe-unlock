@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.tedeschi.safeunlock.manager.NetworkManager;
@@ -79,7 +80,24 @@ public class ConnectionBO {
         List<Connection> result = mConnectionDao.loadAll();
 
         if (null != result && result.size() > 0) {
-            Collections.sort(result);
+            // Ordering by name and checked state
+            Collections.sort(result, new Comparator(){
+                public int compare(Object o1, Object o2) {
+                    Connection c1 = (Connection) o1;
+                    Connection c2 = (Connection) o2;
+
+                    if (c1.getChecked()) {
+                        return -1;
+                    }
+
+                    if (c2.getChecked()) {
+                        return 1;
+                    }
+
+                    return c1.getName().compareToIgnoreCase(c2.getName());
+                }
+
+            });
         }
 
         return result;
