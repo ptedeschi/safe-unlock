@@ -35,7 +35,7 @@ public class Util {
     public static void share(Context context) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, getStoreURL(context) + "\n\n" + context.getString(R.string.share_message));
+        intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_message) + "\n\n" + getStoreURL(context));
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_title)));
     }
 

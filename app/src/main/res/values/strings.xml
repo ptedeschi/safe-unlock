@@ -21,7 +21,7 @@
     <string name="header_wifi_hotspot">SAFE PLACES</string>
 
     <string name="dialog_about_title">About</string>
-    <string name="share_title">Share with</string>
-    <string name="share_message">Check out the safe unlock app for Android</string>
+    <string name="share_title">Share with...</string>
+    <string name="share_message">Check out the safe unlock app for Android:</string>
 
 </resources>

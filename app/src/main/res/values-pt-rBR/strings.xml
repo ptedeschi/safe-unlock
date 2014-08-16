@@ -21,7 +21,7 @@
     <string name="header_wifi_hotspot">LUGARES SEGUROS</string>
 
     <string name="dialog_about_title">Sobre</string>
-    <string name="share_title">Compartilhe com</string>
-    <string name="share_message">Confira a aplicação safe unlock para Android</string>
+    <string name="share_title">Compartilhe com...</string>
+    <string name="share_message">Confira a aplicação safe unlock para Android:</string>
 
 </resources>
