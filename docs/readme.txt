@@ -8,17 +8,25 @@ Ao iniciar o aplicativo, será exibido uma lista de redes Wi-Fi já configuradas
 
 Todos os tipos de bloqueios de tela são suportados: reconhecimento facial, PIN, senha etc.
 
+Keywords: automatic, face unlock, home, keyguard, lockscreen, password, pattern, pin, safe, skip, slide, unlock, wifi, work
+
 ————
 
-Do not waste time unlocking your device in places where there is no such need.
+Do not waste time to unlock your device in places where there is no such need.
 
-How many times have you unlock your Android even when at home or in places away from thieves, out of children reach or the office colleagues pranks? 
-
-Safe unlock allows you to define places so you don’t waste time unlocking your device. 
-
-When you start the application, a list of Wi-Fi networks already configured will be displayed. Select those where you feel safe.
-
+How many times have you unlock your Android even when at home or in places away from thieves, out of children reach or the office colleagues pranks?<br/>
+Safe unlock allows you to define places so you don’t waste time unlocking your device.<br/>
+When you start the application, a list of Wi-Fi networks already configured will be displayed. Select those where you feel safe.<br/>
 All types of screen locks are supported: facial recognition, PIN, password etc.
+<br/>
+<b>Features</b>
+Automatically disables the device lockscreen when at home or other predefined places
+Don't asks for password inputs
+The easiest way to control the device lockscreen
+Don't requires administrator privileges
+<br/>
+<b>Keywords</b>
+automatic, face unlock, home, keyguard, lockscreen, password, pattern, pin, safe, skip, slide, unlock, wifi, work
 
 ——
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
