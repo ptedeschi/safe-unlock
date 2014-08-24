@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import br.com.tedeschi.safeunlock.service.UnlockService;
+import br.com.tedeschi.safeunlock.business.LockBO;
 
 public class BootCompleted extends BroadcastReceiver {
 
@@ -23,14 +23,7 @@ public class BootCompleted extends BroadcastReceiver {
                 if (!TextUtils.isEmpty(action)) {
                     Log.d(TAG, "Action: " + action);
 
-                    if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-                        // Starts service after device is started
-
-                        Log.d(TAG, "Boot completed... Starting Unlock Service");
-
-                        Intent service = new Intent(context, UnlockService.class);
-                        context.startService(service);
-                    }
+                    LockBO.handleChange(context);
                 } else {
                     Log.d(TAG, "Invalid action");
                 }

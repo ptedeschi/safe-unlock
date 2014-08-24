@@ -35,7 +35,6 @@ import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.business.LockBO;
 import br.com.tedeschi.safeunlock.business.SettingsBO;
 import br.com.tedeschi.safeunlock.persistence.vo.Connection;
-import br.com.tedeschi.safeunlock.service.UnlockService;
 
 
 public class MainActivity extends SherlockActivity implements CheckBoxListener {
@@ -95,8 +94,7 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
             adView.loadAd(adRequest);
         }
 
-        Intent service = new Intent(this, UnlockService.class);
-        startService(service);
+        LockBO.handleChange(this);
     }
 
     @Override

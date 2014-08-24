@@ -19,6 +19,8 @@ public class LockBO {
         Log.d(TAG, "+handleChange");
 
         if (null != context) {
+            KeyguardLockManager.getInstance().initialize(context);
+
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
             if (null != wifiManager) {

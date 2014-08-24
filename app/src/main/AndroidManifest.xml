@@ -37,13 +37,13 @@
                 android:name="com.google.android.gms.ads.AdActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
-        <service android:name=".service.UnlockService"></service>
-
         <receiver android:name=".receiver.BootCompleted">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-
-                <category android:name="android.intent.category.HOME"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+                <action android:name="br.com.tedeschi.safeunlock.ACTION_SAFE_CHANGED"/>
             </intent-filter>
         </receiver>
 

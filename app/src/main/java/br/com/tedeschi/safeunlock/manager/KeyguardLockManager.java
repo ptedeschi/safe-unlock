@@ -37,9 +37,20 @@ public class KeyguardLockManager {
     public void initialize(Context context) {
         Log.d(TAG, "+initialize");
 
-        mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        mKeyguardLock = mKeyguardManager.newKeyguardLock(context.getPackageName());
+        if (null == mKeyguardManager) {
+            Log.d(TAG, "Initializing KeyguardManager");
+            mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        }
+
+        if (null == mPowerManager) {
+            Log.d(TAG, "Initializing PowerManager");
+            mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        }
+
+        if (null == mKeyguardLock) {
+            Log.d(TAG, "Initializing KeyguardLock");
+            mKeyguardLock = mKeyguardManager.newKeyguardLock(context.getPackageName());
+        }
 
         Log.d(TAG, "-initialize");
     }
