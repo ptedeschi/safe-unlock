@@ -7,7 +7,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.flurry.android.FlurryAgent;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
@@ -31,6 +30,7 @@ import br.com.tedeschi.safeunlock.R;
 import br.com.tedeschi.safeunlock.Util;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter;
 import br.com.tedeschi.safeunlock.adapter.HotspotAdapter.CheckBoxListener;
+import br.com.tedeschi.safeunlock.business.Analytics;
 import br.com.tedeschi.safeunlock.business.ConnectionBO;
 import br.com.tedeschi.safeunlock.business.LockBO;
 import br.com.tedeschi.safeunlock.business.SettingsBO;
@@ -62,6 +62,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                Analytics.onAppEnableChanged(MainActivity.this, checked);
+
                 settingsBO.setEnabled(checked);
 
                 LockBO.handleChange(MainActivity.this);
@@ -101,20 +103,14 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
     protected void onStart() {
         super.onStart();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
-            FlurryAgent.onStartSession(this, getString(R.string.flurry_api_key));
-            FlurryAgent.setCaptureUncaughtExceptions(true);
-            FlurryAgent.setLogEnabled(true);
-        }
+        Analytics.onStartApp(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
-            FlurryAgent.onEndSession(this);
-        }
+        Analytics.onStopApp(this);
     }
 
 
@@ -137,6 +133,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
 
         switch (id) {
             case R.id.action_refresh:
+                Analytics.onRefresh(this);
+
                 // Get all connection items and handle visibility of warning if needed
                 ConnectionBO connectionBO = new ConnectionBO(this);
                 List<Connection> list = connectionBO.getAll();
@@ -153,6 +151,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
                 break;
 
             case R.id.action_about:
+                Analytics.onAbout(this);
+
                 // Linkify the message
                 String message = String.format("%s\nver. %s\n%s\n%s", getString(R.string.app_name), Util.getVersion(this), getString(R.string.app_copyright), getString(R.string.app_email));
 
@@ -171,10 +171,14 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
                 ((TextView) alertDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                 break;
             case R.id.action_share:
+                Analytics.onShare(this);
+
                 Util.share(this);
 
                 break;
             case R.id.action_rate:
+                Analytics.onRate(this);
+
                 Util.rate(this);
                 break;
 
@@ -188,6 +192,8 @@ public class MainActivity extends SherlockActivity implements CheckBoxListener {
     @Override
     public void onCheckBoxToggled(Connection conecction, boolean checked) {
         Log.d(TAG, "Connection checkbox changed: " + conecction.getName() + " -> " + checked);
+
+        Analytics.onSafeAreaChanged(this, conecction.getName(), checked);
 
         conecction.setChecked(checked);
 
